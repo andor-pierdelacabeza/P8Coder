@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -12,7 +12,7 @@ namespace P8Coder
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
+            Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.SetCompatibleTextRenderingDefault(false);
             CoderForm mainForm = new CoderForm();
 
