@@ -5,7 +5,7 @@ using System.Windows.Forms;
 namespace FastColoredTextBoxNS
 {
     [System.ComponentModel.ToolboxItem(false)]
-    public class UnfocusablePanel : UserControl
+    public partial class UnfocusablePanel : UserControl
     {
         public Color BackColor2 { get; set; }
         public Color BorderColor { get; set; }
@@ -27,9 +27,11 @@ namespace FastColoredTextBoxNS
 
             if (!string.IsNullOrEmpty(Text))
             {
-                StringFormat sf = new StringFormat();
-                sf.Alignment = TextAlignment;
-                sf.LineAlignment = StringAlignment.Center;
+                StringFormat sf = new()
+                {
+                    Alignment = TextAlignment,
+                    LineAlignment = StringAlignment.Center
+                };
                 using (var brush = new SolidBrush(ForeColor))
                     e.Graphics.DrawString(Text, Font, brush, new RectangleF(1, 1, ClientSize.Width - 2, ClientSize.Height - 2), sf);
             }

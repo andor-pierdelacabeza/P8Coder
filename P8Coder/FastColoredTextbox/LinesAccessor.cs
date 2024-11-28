@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace FastColoredTextBoxNS
 {
-    public class LinesAccessor : IList<string>
+    public partial class LinesAccessor : IList<string>
     {
         IList<Line> ts;
 

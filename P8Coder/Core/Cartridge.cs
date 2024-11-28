@@ -44,8 +44,10 @@ namespace P8Coder.Core
             Filename = filename;
 
             // watch file changes (started when callback action is set)
-            changePollTimer = new Timer();
-            changePollTimer.Interval = 2000;
+            changePollTimer = new Timer
+            {
+                Interval = 2000
+            };
             changePollTimer.Tick += changePollTimer_Tick;
         }
 
@@ -146,7 +148,7 @@ namespace P8Coder.Core
             {
                 for (int x = 0; x < 16; x++)
                 {
-                    Bitmap sprite = new Bitmap(8, 8);
+                    Bitmap sprite = new(8, 8);
                     var g = Graphics.FromImage(sprite);
                     g.DrawImage(SpriteSheet, new Rectangle(0, 0, 8, 8), new Rectangle(x * 8, y * 8, 8, 8), GraphicsUnit.Pixel);
 

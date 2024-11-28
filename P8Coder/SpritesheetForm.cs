@@ -45,7 +45,7 @@ namespace P8Coder
             // selection rectangle
             int sx = selectedSpriteX * s - 1 + border;
             int sy = selectedSpriteY * s - 1 + border;
-            Pen p = new Pen(Brushes.Red, 2);
+            Pen p = new(Brushes.Red, 2);
             g.DrawRectangle(p, new Rectangle(sx, sy, s, s));
         }
 
@@ -132,11 +132,12 @@ namespace P8Coder
 
         private void saveBtn_Click(object sender, EventArgs e)
         {
-            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-
-            saveFileDialog1.Filter = "png files (*.png)|*.png";
-            saveFileDialog1.AddExtension = true;
-            saveFileDialog1.RestoreDirectory = true;
+            SaveFileDialog saveFileDialog1 = new()
+            {
+                Filter = "png files (*.png)|*.png",
+                AddExtension = true,
+                RestoreDirectory = true
+            };
 
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {

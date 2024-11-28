@@ -11,12 +11,12 @@ namespace FastColoredTextBoxNS
     /// This class contains the source text (chars and styles).
     /// It stores a text lines, the manager of commands, undo/redo stack, styles.
     /// </summary>
-    public class FileTextSource : TextSource, IDisposable
+    public partial class FileTextSource : TextSource, IDisposable
     {
-        List<int> sourceFileLinePositions = new List<int>();
+        List<int> sourceFileLinePositions = [];
         FileStream fs;
         Encoding fileEncoding;
-        System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
+        System.Windows.Forms.Timer timer = new();
 
         /// <summary>
         /// Occurs when need to display line in the textbox
@@ -234,9 +234,9 @@ namespace FastColoredTextBoxNS
             var dir = Path.GetDirectoryName(fileName);
             var tempFileName = Path.Combine(dir, Path.GetFileNameWithoutExtension(fileName) + ".tmp");
 
-            StreamReader sr = new StreamReader(fs, fileEncoding);
-            using (FileStream tempFs = new FileStream(tempFileName, FileMode.Create))
-            using (StreamWriter sw = new StreamWriter(tempFs, enc))
+            StreamReader sr = new(fs, fileEncoding);
+            using (FileStream tempFs = new(tempFileName, FileMode.Create))
+            using (StreamWriter sw = new(tempFs, enc))
             {
                 sw.Flush();
 
@@ -332,7 +332,7 @@ namespace FastColoredTextBoxNS
         {
             var line = CreateLine();
             fs.Seek(sourceFileLinePositions[i], SeekOrigin.Begin);
-            StreamReader sr = new StreamReader(fs, fileEncoding);
+            StreamReader sr = new(fs, fileEncoding);
 
             var s = sr.ReadLine();
             if (s == null)

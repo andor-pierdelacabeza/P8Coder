@@ -61,7 +61,7 @@ namespace FastColoredTextBoxNS
 
         public static GraphicsPath GetRoundedRectangle(Rectangle rect, int d)
         {
-            GraphicsPath gp = new GraphicsPath();
+            GraphicsPath gp = new();
 
             gp.AddArc(rect.X, rect.Y, d, d, 180, 90);
             gp.AddArc(rect.X + rect.Width - d, rect.Y, d, d, 270, 90);
@@ -100,7 +100,7 @@ namespace FastColoredTextBoxNS
     /// Style for chars rendering
     /// This renderer can draws chars, with defined fore and back colors
     /// </summary>
-    public class TextStyle : Style
+    public partial class TextStyle : Style
     {
         public Brush ForeBrush { get; set; }
         public Brush BackgroundBrush { get; set; }
@@ -215,7 +215,7 @@ namespace FastColoredTextBoxNS
     /// <summary>
     /// Renderer for folded block
     /// </summary>
-    public class FoldedBlockStyle : TextStyle
+    public partial class FoldedBlockStyle : TextStyle
     {
         public FoldedBlockStyle(Brush foreBrush, Brush backgroundBrush, FontStyle fontStyle) :
             base(foreBrush, backgroundBrush, fontStyle)
@@ -243,7 +243,7 @@ namespace FastColoredTextBoxNS
             else
             {
                 //draw '...'
-                using (Font f = new Font(range.tb.Font, FontStyle))
+                using (Font f = new(range.tb.Font, FontStyle))
                     gr.DrawString("...", f, ForeBrush, range.tb.LeftIndent, position.Y - 2);
                 //create marker
                 range.tb.AddVisualMarker(new FoldedAreaMarker(range.Start.iLine, new Rectangle(range.tb.LeftIndent + 2, position.Y, 2 * range.tb.CharHeight, range.tb.CharHeight)));
@@ -254,7 +254,7 @@ namespace FastColoredTextBoxNS
     /// <summary>
     /// Renderer for selected area
     /// </summary>
-    public class SelectionStyle : Style
+    public partial class SelectionStyle : Style
     {
         public Brush BackgroundBrush { get; set; }
         public Brush ForegroundBrush { get; private set; }
@@ -300,7 +300,7 @@ namespace FastColoredTextBoxNS
     /// Marker style
     /// Draws background color for text
     /// </summary>
-    public class MarkerStyle : Style
+    public partial class MarkerStyle : Style
     {
         public Brush BackgroundBrush { get; set; }
 
@@ -315,7 +315,7 @@ namespace FastColoredTextBoxNS
             //draw background
             if (BackgroundBrush != null)
             {
-                Rectangle rect = new Rectangle(position.X, position.Y, (range.End.iChar - range.Start.iChar) * range.tb.CharWidth, range.tb.CharHeight);
+                Rectangle rect = new(position.X, position.Y, (range.End.iChar - range.Start.iChar) * range.tb.CharWidth, range.tb.CharHeight);
                 if (rect.Width == 0)
                     return;
                 gr.FillRectangle(BackgroundBrush, rect);
@@ -340,7 +340,7 @@ namespace FastColoredTextBoxNS
     /// <summary>
     /// Draws small rectangle for popup menu
     /// </summary>
-    public class ShortcutStyle : Style
+    public partial class ShortcutStyle : Style
     {
         public Pen borderPen;
 
@@ -354,7 +354,7 @@ namespace FastColoredTextBoxNS
             //get last char coordinates
             Point p = range.tb.PlaceToPoint(range.End);
             //draw small square under char
-            Rectangle rect = new Rectangle(p.X - 5, p.Y + range.tb.CharHeight - 2, 4, 3);
+            Rectangle rect = new(p.X - 5, p.Y + range.tb.CharHeight - 2, 4, 3);
             gr.FillPath(Brushes.White, GetRoundedRectangle(rect, 1));
             gr.DrawPath(borderPen, GetRoundedRectangle(rect, 1));
             //add visual marker for handle mouse events
@@ -366,7 +366,7 @@ namespace FastColoredTextBoxNS
     /// This style draws a wavy line below a given text range.
     /// </summary>
     /// <remarks>Thanks for Yallie</remarks>
-    public class WavyLineStyle : Style
+    public partial class WavyLineStyle : Style
     {
         private Pen Pen { get; set; }
 
@@ -416,7 +416,7 @@ namespace FastColoredTextBoxNS
     /// This style is used to mark range of text as ReadOnly block
     /// </summary>
     /// <remarks>You can inherite this style to add visual effects of readonly text</remarks>
-    public class ReadOnlyStyle : Style
+    public partial class ReadOnlyStyle : Style
     {
         public ReadOnlyStyle()
         {

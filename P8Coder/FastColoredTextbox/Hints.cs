@@ -9,10 +9,10 @@ namespace FastColoredTextBoxNS
     /// Collection of Hints.
     /// This is temporary buffer for currently displayed hints.
     /// </summary>
-    public class Hints : ICollection<Hint>, IDisposable
+    public partial class Hints : ICollection<Hint>, IDisposable
     {
         FastColoredTextBox tb;
-        List<Hint> items = new List<Hint>();
+        List<Hint> items = [];
 
         public Hints(FastColoredTextBox tb)
         {

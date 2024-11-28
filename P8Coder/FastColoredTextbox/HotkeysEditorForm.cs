@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 using System.Windows.Forms;
+using P8Coder.FastColoredTextbox;
 
 namespace FastColoredTextBoxNS
 {
     public partial class HotkeysEditorForm : Form
     {
-        BindingList<HotkeyWrapper> wrappers = new BindingList<HotkeyWrapper>();
+        BindingList<HotkeyWrapper> wrappers = [];
 
         public HotkeysEditorForm(HotkeysMapping hotkeys)
         {
@@ -74,7 +75,7 @@ namespace FastColoredTextBoxNS
 
         private void btResore_Click(object sender, EventArgs e)
         {
-            HotkeysMapping h = new HotkeysMapping();
+            HotkeysMapping h = [];
             h.InitDefault();
             BuildWrappers(h);
         }
@@ -100,7 +101,7 @@ namespace FastColoredTextBoxNS
 
         private string GetUnAssignedActions()
         {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
             var dic = new Dictionary<FCTBAction, FCTBAction>();
 
             foreach (var w in wrappers)
@@ -122,7 +123,7 @@ namespace FastColoredTextBoxNS
     {
         public HotkeyWrapper(Keys keyData, FCTBAction action)
         {
-            KeyEventArgs a = new KeyEventArgs(keyData);
+            KeyEventArgs a = new(keyData);
             Ctrl = a.Control;
             Shift = a.Shift;
             Alt = a.Alt;

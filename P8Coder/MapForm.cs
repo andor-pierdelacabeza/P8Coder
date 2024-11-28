@@ -46,7 +46,7 @@ namespace P8Coder
             // selection rectangle
             int sx = selectedSpriteX * s - 1 + border;
             int sy = selectedSpriteY * s - 1 + border;
-            Pen p = new Pen(Brushes.Red, 2);
+            Pen p = new(Brushes.Red, 2);
             g.DrawRectangle(p, new Rectangle(sx, sy, s, s));
         }
 

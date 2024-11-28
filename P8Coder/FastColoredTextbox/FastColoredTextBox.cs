@@ -36,6 +36,7 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
 using Microsoft.Win32;
+using P8Coder.FastColoredTextbox;
 using Timer = System.Windows.Forms.Timer;
 
 namespace FastColoredTextBoxNS
@@ -54,12 +55,12 @@ namespace FastColoredTextBoxNS
         private const int WM_VSCROLL = 0x115;
         private const int SB_ENDSCROLL = 0x8;
 
-        public readonly List<LineInfo> LineInfos = new List<LineInfo>();
+        public readonly List<LineInfo> LineInfos = [];
         private readonly Range selection;
-        private readonly Timer timer = new Timer();
-        private readonly Timer timer2 = new Timer();
-        private readonly Timer timer3 = new Timer();
-        private readonly List<VisualMarker> visibleMarkers = new List<VisualMarker>();
+        private readonly Timer timer = new();
+        private readonly Timer timer2 = new();
+        private readonly Timer timer3 = new();
+        private readonly List<VisualMarker> visibleMarkers = [];
         public int TextHeight;
         public bool AllowInsertRemoveLines = true;
         private Brush backBrush;
@@ -73,7 +74,7 @@ namespace FastColoredTextBoxNS
         private string descriptionFile;
         private int endFoldingLine = -1;
         private Color foldingIndicatorColor;
-        protected Dictionary<int, int> foldingPairs = new Dictionary<int, int>();
+        protected Dictionary<int, int> foldingPairs = [];
         private bool handledChar;
         private bool highlightFoldingIndicator;
         private Hints hints;
@@ -204,10 +205,10 @@ namespace FastColoredTextBoxNS
             textAreaBorder = TextAreaBorderType.None;
             textAreaBorderColor = Color.Black;
             macrosManager = new MacrosManager(this);
-            HotkeysMapping = new HotkeysMapping();
+            HotkeysMapping = [];
             HotkeysMapping.InitDefault();
             WordWrapAutoIndent = true;
-            FoldedBlocks = new Dictionary<int, int>();
+            FoldedBlocks = [];
             AutoCompleteBrackets = false;
             AutoIndentCharsPatterns = @"^\s*[\w\.]+\s*(?<range>=)\s*(?<range>[^;]+);";
             AutoIndentChars = true;
@@ -1407,10 +1408,12 @@ namespace FastColoredTextBoxNS
         {
             get
             {
-                var exporter = new ExportToHTML();
-                exporter.UseNbsp = false;
-                exporter.UseStyleTag = false;
-                exporter.UseBr = false;
+                var exporter = new ExportToHTML
+                {
+                    UseNbsp = false,
+                    UseStyleTag = false,
+                    UseBr = false
+                };
                 return "<pre>" + exporter.GetHtml(this) + "</pre>";
             }
         }
@@ -2296,7 +2299,7 @@ namespace FastColoredTextBoxNS
                 VisibleRangeChangedDelayed(this, new EventArgs());
         }
 
-        Dictionary<Timer, Timer> timersToReset = new Dictionary<Timer, Timer>();
+        Dictionary<Timer, Timer> timersToReset = [];
 
         private void ResetTimer(Timer timer)
         {
@@ -2422,9 +2425,11 @@ namespace FastColoredTextBoxNS
             if (iLine < 0 || iLine >= lines.Count)
                 throw new ArgumentOutOfRangeException("Line index out of range");
 
-            var sel = new Range(this);
-            sel.Start = new Place(0, iLine);
-            sel.End = new Place(lines[iLine].Count, iLine);
+            var sel = new Range(this)
+            {
+                Start = new Place(0, iLine),
+                End = new Place(lines[iLine].Count, iLine)
+            };
             return sel;
         }
 
@@ -2449,10 +2454,12 @@ namespace FastColoredTextBoxNS
 
         protected virtual void OnCreateClipboardData(DataObject data)
         {
-            var exp = new ExportToHTML();
-            exp.UseBr = false;
-            exp.UseNbsp = false;
-            exp.UseStyleTag = true;
+            var exp = new ExportToHTML
+            {
+                UseBr = false,
+                UseNbsp = false,
+                UseStyleTag = true
+            };
             string html = "<pre>" + exp.GetHtml(Selection.Clone()) + "</pre>";
 
             data.SetData(DataFormats.UnicodeText, true, Selection.Text);
@@ -2540,7 +2547,7 @@ namespace FastColoredTextBoxNS
                 if (Selection.Start.iLine >= 0 && Selection.Start.iLine < LinesCount)
                 {
                     int iLine = Selection.Start.iLine;
-                    RemoveLines(new List<int> { iLine });
+                    RemoveLines([iLine]);
                     Selection.Start = new Place(0, Math.Max(0, Math.Min(iLine, LinesCount - 1)));
                 }
             }
@@ -3422,14 +3429,14 @@ namespace FastColoredTextBoxNS
             return base.ProcessDialogKey(keyData);
         }
 
-        static Dictionary<FCTBAction, bool> scrollActions = new Dictionary<FCTBAction, bool>() { { FCTBAction.ScrollDown, true }, { FCTBAction.ScrollUp, true }, { FCTBAction.ZoomOut, true }, { FCTBAction.ZoomIn, true }, { FCTBAction.ZoomNormal, true } };
+        static Dictionary<FCTBAction, bool> scrollActions = new() { { FCTBAction.ScrollDown, true }, { FCTBAction.ScrollUp, true }, { FCTBAction.ZoomOut, true }, { FCTBAction.ZoomIn, true }, { FCTBAction.ZoomNormal, true } };
 
         /// <summary>
         /// Process control keys
         /// </summary>
         public virtual bool ProcessKey(Keys keyData)
         {
-            KeyEventArgs a = new KeyEventArgs(keyData);
+            KeyEventArgs a = new(keyData);
 
             if (a.KeyCode == Keys.Tab && !AcceptsTab)
                 return false;
@@ -5150,7 +5157,7 @@ namespace FastColoredTextBoxNS
                 }
             }
 
-            using (Pen pen = new Pen(TextAreaBorderColor))
+            using (Pen pen = new(TextAreaBorderColor))
                 graphics.DrawRectangle(pen, rect);
         }
 
@@ -5852,9 +5859,11 @@ namespace FastColoredTextBoxNS
         /// </summary>
         public virtual void OnTextChanged(int fromLine, int toLine)
         {
-            var r = new Range(this);
-            r.Start = new Place(0, Math.Min(fromLine, toLine));
-            r.End = new Place(lines[Math.Max(fromLine, toLine)].Count, Math.Max(fromLine, toLine));
+            var r = new Range(this)
+            {
+                Start = new Place(0, Math.Min(fromLine, toLine)),
+                End = new Place(lines[Math.Max(fromLine, toLine)].Count, Math.Max(fromLine, toLine))
+            };
             OnTextChanged(new TextChangedEventArgs(r));
         }
 
@@ -6146,9 +6155,11 @@ namespace FastColoredTextBoxNS
         /// <returns>Range</returns>
         public Range GetRange(int fromPos, int toPos)
         {
-            var sel = new Range(this);
-            sel.Start = PositionToPlace(fromPos);
-            sel.End = PositionToPlace(toPos);
+            var sel = new Range(this)
+            {
+                Start = PositionToPlace(fromPos),
+                End = PositionToPlace(toPos)
+            };
             return sel;
         }
 
@@ -7146,12 +7157,14 @@ namespace FastColoredTextBoxNS
         public virtual void Print(Range range, PrintDialogSettings settings)
         {
             //prepare export with wordwrapping
-            var exporter = new ExportToHTML();
-            exporter.UseBr = true;
-            exporter.UseForwardNbsp = true;
-            exporter.UseNbsp = true;
-            exporter.UseStyleTag = false;
-            exporter.IncludeLineNumbers = settings.IncludeLineNumbers;
+            var exporter = new ExportToHTML
+            {
+                UseBr = true,
+                UseForwardNbsp = true,
+                UseNbsp = true,
+                UseStyleTag = false,
+                IncludeLineNumbers = settings.IncludeLineNumbers
+            };
 
             if (range == null)
                 range = Range;
@@ -7186,11 +7199,13 @@ namespace FastColoredTextBoxNS
             SetPageSetupSettings(settings);
 
             //create wb
-            var wb = new WebBrowser();
-            wb.Tag = settings;
-            wb.Visible = false;
-            wb.Location = new Point(-1000, -1000);
-            wb.Parent = this;
+            var wb = new WebBrowser
+            {
+                Tag = settings,
+                Visible = false,
+                Location = new Point(-1000, -1000),
+                Parent = this
+            };
             wb.StatusTextChanged += wb_StatusTextChanged;
             wb.Navigate(tempFile);
         }
@@ -7461,9 +7476,11 @@ window.status = ""#print"";
         /// </summary>
         public void ShowGoToDialog()
         {
-            var form = new GoToForm();
-            form.TotalLineCount = LinesCount;
-            form.SelectedLineNumber = Selection.Start.iLine + 1;
+            var form = new GoToForm
+            {
+                TotalLineCount = LinesCount,
+                SelectedLineNumber = Selection.Start.iLine + 1
+            };
 
             if (form.ShowDialog() == DialogResult.OK)
             {
@@ -7561,7 +7578,7 @@ window.status = ""#print"";
 
         private void DoDragDrop_old(Place place, string text)
         {
-            Range insertRange = new Range(this, place, place);
+            Range insertRange = new(this, place, place);
 
             // Abort, if insertRange is read only
             if (insertRange.ReadOnly)
@@ -7670,7 +7687,7 @@ window.status = ""#print"";
 
         protected virtual void DoDragDrop(Place place, string text)
         {
-            Range insertRange = new Range(this, place, place);
+            Range insertRange = new(this, place, place);
 
             // Abort, if insertRange is read only
             if (insertRange.ReadOnly)
@@ -7873,7 +7890,7 @@ window.status = ""#print"";
         private bool middleClickScrollingActivated;
         private Point middleClickScrollingOriginPoint;
         private Point middleClickScrollingOriginScroll;
-        private readonly Timer middleClickScrollingTimer = new Timer();
+        private readonly Timer middleClickScrollingTimer = new();
         private ScrollDirection middleClickScollDirection = ScrollDirection.None;
 
         /// <summary>
@@ -8036,7 +8053,7 @@ window.status = ""#print"";
 
             // Calculate inverse color
             Color inverseColor = Color.FromArgb(100, (byte)~this.BackColor.R, (byte)~this.BackColor.G, (byte)~this.BackColor.B);
-            using (SolidBrush inverseColorBrush = new SolidBrush(inverseColor))
+            using (SolidBrush inverseColorBrush = new(inverseColor))
             {
                 var p = middleClickScrollingOriginPoint;
 
@@ -8061,7 +8078,7 @@ window.status = ""#print"";
         private void DrawTriangle(Graphics g, Brush brush)
         {
             const int size = 5;
-            var points = new Point[] { new Point(size, 2 * size), new Point(0, 3 * size), new Point(-size, 2 * size) };
+            var points = new Point[] { new(size, 2 * size), new(0, 3 * size), new(-size, 2 * size) };
             g.FillPolygon(brush, points);
         }
 
@@ -8095,7 +8112,7 @@ window.status = ""#print"";
         #endregion
     }
 
-    public class PaintLineEventArgs : PaintEventArgs
+    public partial class PaintLineEventArgs : PaintEventArgs
     {
         public PaintLineEventArgs(int iLine, Rectangle rect, Graphics gr, Rectangle clipRect) : base(gr, clipRect)
         {

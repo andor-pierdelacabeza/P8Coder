@@ -7,14 +7,15 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
+using FastColoredTextBoxNS;
 using KEYS = System.Windows.Forms.Keys;
 
-namespace FastColoredTextBoxNS
+namespace P8Coder.FastColoredTextbox
 {
     /// <summary>
     /// Dictionary of shortcuts for FCTB
     /// </summary>
-    public class HotkeysMapping : SortedDictionary<Keys, FCTBAction>
+    public partial class HotkeysMapping : SortedDictionary<KEYS, FCTBAction>
     {
         public virtual void InitDefault()
         {
@@ -94,7 +95,7 @@ namespace FastColoredTextBoxNS
         {
             var cult = Thread.CurrentThread.CurrentUICulture;
             Thread.CurrentThread.CurrentUICulture = CultureInfo.InvariantCulture;
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
             var kc = new KeysConverter();
             foreach (var pair in this)
             {
@@ -120,7 +121,7 @@ namespace FastColoredTextBoxNS
             foreach (var p in s.Split(','))
             {
                 var pp = p.Split('=');
-                var k = (Keys)kc.ConvertFromString(pp[0].Trim());
+                var k = (KEYS)kc.ConvertFromString(pp[0].Trim());
                 var a = (FCTBAction)Enum.Parse(typeof(FCTBAction), pp[1].Trim());
                 result[k] = a;
             }
@@ -227,14 +228,14 @@ namespace FastColoredTextBoxNS
 
     internal class HotkeysEditor : UITypeEditor
     {
-        public override UITypeEditorEditStyle GetEditStyle(System.ComponentModel.ITypeDescriptorContext context)
+        public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context)
         {
             return UITypeEditorEditStyle.Modal;
         }
 
         public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value)
         {
-            if ((provider != null) && (((IWindowsFormsEditorService)provider.GetService(typeof(IWindowsFormsEditorService))) != null))
+            if (provider != null && (IWindowsFormsEditorService)provider.GetService(typeof(IWindowsFormsEditorService)) != null)
             {
                 var form = new HotkeysEditorForm(HotkeysMapping.Parse(value as string));
 

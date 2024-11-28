@@ -7,7 +7,7 @@ namespace P8Coder.Core
     {
         public bool Enabled = true;
         public string Name = "Entity";
-        public List<Function> Functions = new List<Function>();
+        public List<Function> Functions = [];
 
         public Entity()
         {
@@ -16,8 +16,10 @@ namespace P8Coder.Core
 
         public Function Add(string name, string code, bool enabled = true)
         {
-            Function f = new Function(name, code);
-            f.Enabled = enabled;
+            Function f = new(name, code)
+            {
+                Enabled = enabled
+            };
             Functions.Add(f);
             return f;
         }
@@ -30,7 +32,7 @@ namespace P8Coder.Core
 
             foreach (XElement xfunc in xentity.Elements())
             {
-                Function f = new Function("", "");
+                Function f = new("", "");
                 f.FromXElement(xfunc);
                 Functions.Add(f);
             }
@@ -40,7 +42,7 @@ namespace P8Coder.Core
 
         public XElement ToXElement()
         {
-            XElement xentity = new XElement("entity",
+            XElement xentity = new("entity",
                 new XAttribute("name", Name),
                 new XAttribute("enabled", Enabled ? 1 : 0)
                 );

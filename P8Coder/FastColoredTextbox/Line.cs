@@ -8,7 +8,7 @@ namespace FastColoredTextBoxNS
     /// <summary>
     /// Line of text
     /// </summary>
-    public class Line : IList<Char>
+    public partial class Line : IList<Char>
     {
         protected List<Char> chars;
 
@@ -43,7 +43,7 @@ namespace FastColoredTextBoxNS
         internal Line(int uid)
         {
             this.UniqueId = uid;
-            chars = new List<Char>();
+            chars = [];
         }
 
 
@@ -69,7 +69,7 @@ namespace FastColoredTextBoxNS
         {
             get
             {
-                StringBuilder sb = new StringBuilder(Count);
+                StringBuilder sb = new(Count);
                 foreach (Char c in this)
                     sb.Append(c.c);
                 return sb.ToString();
@@ -224,7 +224,7 @@ namespace FastColoredTextBoxNS
             get
             {
                 if (cutOffPositions == null)
-                    cutOffPositions = new List<int>();
+                    cutOffPositions = [];
                 return cutOffPositions;
             }
         }

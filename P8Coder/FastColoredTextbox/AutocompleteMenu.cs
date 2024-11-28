@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using P8Coder.FastColoredTextbox;
 
 namespace FastColoredTextBoxNS
 {
@@ -12,7 +13,7 @@ namespace FastColoredTextBoxNS
     /// Popup menu for autocomplete
     /// </summary>
     [Browsable(false)]
-    public class AutocompleteMenu : ToolStripDropDown
+    public partial class AutocompleteMenu : ToolStripDropDown
     {
         AutocompleteListView listView;
         public ToolStripControlHost host;
@@ -76,11 +77,13 @@ namespace FastColoredTextBoxNS
             Padding = Padding.Empty;
             BackColor = Color.White;
             listView = new AutocompleteListView(tb);
-            host = new ToolStripControlHost(listView);
-            host.Margin = new Padding(2, 2, 2, 2);
-            host.Padding = Padding.Empty;
-            host.AutoSize = false;
-            host.AutoToolTip = false;
+            host = new ToolStripControlHost(listView)
+            {
+                Margin = new Padding(2, 2, 2, 2),
+                Padding = Padding.Empty,
+                AutoSize = false,
+                AutoToolTip = false
+            };
             CalcSize();
             base.Items.Add(host);
             listView.Parent = this;
@@ -187,7 +190,7 @@ namespace FastColoredTextBoxNS
     }
 
     [System.ComponentModel.ToolboxItem(false)]
-    public class AutocompleteListView : UserControl
+    public partial class AutocompleteListView : UserControl
     {
         public event EventHandler FocussedItemIndexChanged;
 
@@ -204,8 +207,8 @@ namespace FastColoredTextBoxNS
         AutocompleteMenu Menu { get { return Parent as AutocompleteMenu; } }
         int oldItemCount = 0;
         FastColoredTextBox tb;
-        internal ToolTip toolTip = new ToolTip();
-        System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
+        internal ToolTip toolTip = new();
+        System.Windows.Forms.Timer timer = new();
 
         internal bool AllowTabKey { get; set; }
         public ImageList ImageList { get; set; }
@@ -246,7 +249,7 @@ namespace FastColoredTextBoxNS
         {
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
             base.Font = new Font(FontFamily.GenericSansSerif, 9);
-            visibleItems = new List<AutocompleteItem>();
+            visibleItems = [];
             VerticalScroll.SmallChange = ItemHeight;
             MaximumSize = new Size(Size.Width, 180);
             toolTip.ShowAlways = false;
@@ -369,7 +372,7 @@ namespace FastColoredTextBoxNS
             {
                 if (!Menu.Visible)
                 {
-                    CancelEventArgs args = new CancelEventArgs();
+                    CancelEventArgs args = new();
                     Menu.OnOpening(args);
                     if (!args.Cancel)
                         Menu.Show(tb, point);
@@ -527,7 +530,7 @@ namespace FastColoredTextBoxNS
             try
             {
                 AutocompleteItem item = FocussedItem;
-                SelectingEventArgs args = new SelectingEventArgs()
+                SelectingEventArgs args = new()
                 {
                     Item = item,
                     SelectedIndex = FocussedItemIndex
@@ -550,7 +553,7 @@ namespace FastColoredTextBoxNS
 
                 Menu.Close();
                 //
-                SelectedEventArgs args2 = new SelectedEventArgs()
+                SelectedEventArgs args2 = new()
                 {
                     Item = item,
                     Tb = Menu.Fragment.tb
@@ -674,7 +677,7 @@ namespace FastColoredTextBoxNS
             }
 
             IWin32Window window = this.Parent ?? this;
-            Point location = new Point((window == this ? Width : Right) + 3, 0);
+            Point location = new((window == this ? Width : Right) + 3, 0);
 
             if (string.IsNullOrEmpty(text))
             {
@@ -695,7 +698,7 @@ namespace FastColoredTextBoxNS
 
         public void SetAutocompleteItems(ICollection<string> items)
         {
-            List<AutocompleteItem> list = new List<AutocompleteItem>(items.Count);
+            List<AutocompleteItem> list = new(items.Count);
             foreach (var item in items)
                 list.Add(new AutocompleteItem(item));
             SetAutocompleteItems(list);

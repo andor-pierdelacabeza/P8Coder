@@ -47,9 +47,9 @@ namespace P8Coder.Core
         public string Name;
         public string Author;
 
-        public string Code { get { return assembleCode(); } }
+        public string Code { get { return AssembleCode(); } }
 
-        public List<Entity> Entities = new List<Entity>();
+        public List<Entity> Entities = [];
 
         public Project()
         {
@@ -59,15 +59,19 @@ namespace P8Coder.Core
             Name = "New game";
             Author = "";
 
-            Entity notes = new Entity();
-            notes.Enabled = false;
-            notes.Name = "Notes";
+            Entity notes = new()
+            {
+                Enabled = false,
+                Name = "Notes"
+            };
             notes.Add("ideas", "ideas\n\n  1. \n  2. ", false);
             notes.Add("todo", "todo\n\n  1. \n  2. ", false);
             Entities.Add(notes);
 
-            Entity main = new Entity();
-            main.Name = "Game";
+            Entity main = new()
+            {
+                Name = "Game"
+            };
             main.Add("globals", "f=0");
             main.Add("_init", "function _init()\nend");
             main.Add("_update", "function _update()\nend");
@@ -79,7 +83,7 @@ namespace P8Coder.Core
         {
             if (String.IsNullOrEmpty(Filename)) return false;
 
-            XElement xml = toXElement();
+            XElement xml = ToXElement();
             xml.Save(Filename);
 
             return true;
@@ -94,7 +98,7 @@ namespace P8Coder.Core
 
             try
             {
-                fromXElement(xproject);
+                FromXElement(xproject);
             }
             catch
             {
@@ -104,7 +108,7 @@ namespace P8Coder.Core
             return true;
         }
 
-        private string assembleCode()
+        private string AssembleCode()
         {
             string nl = "\n";
             string code = "--" + Name.ToLower() + nl;
@@ -139,7 +143,7 @@ namespace P8Coder.Core
             {
                 if (sections[i] == "__lua__")
                 {
-                    sections[i + 1] = "\n" + assembleCode();
+                    sections[i + 1] = "\n" + AssembleCode();
                 }
             }
 
@@ -151,19 +155,19 @@ namespace P8Coder.Core
 
 
         // XML LOADING / SAVING
-        private XElement toXElement()
+        private XElement ToXElement()
         {
-            XElement xproject = new XElement("project",
+            XElement xproject = new("project",
                 new XAttribute("version", Version)
             );
 
-            XElement xgame = new XElement("game",
+            XElement xgame = new("game",
                 new XElement("name", Name),
                 new XElement("author", Author),
                 new XElement("cart", CartFilename));
             xproject.Add(xgame);
 
-            XElement xobjects = new XElement("entities");
+            XElement xobjects = new("entities");
             foreach (Entity entity in Entities)
             {
                 xobjects.Add(entity.ToXElement());
@@ -173,7 +177,7 @@ namespace P8Coder.Core
             return xproject;
         }
 
-        private void fromXElement(XElement xproject)
+        private void FromXElement(XElement xproject)
         {
             Entities.Clear();
             Version = (int)xproject.Attribute("version");
@@ -192,7 +196,7 @@ namespace P8Coder.Core
                     // load game entities
                     foreach (XElement xentity in xproject.Element("entities").Elements())
                     {
-                        Entity entity = new Entity();
+                        Entity entity = new();
                         entity.FromXElement(xentity);
                         Entities.Add(entity);
                     }

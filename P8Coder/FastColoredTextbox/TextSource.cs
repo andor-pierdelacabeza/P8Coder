@@ -11,9 +11,9 @@ namespace FastColoredTextBoxNS
     /// This class contains the source text (chars and styles).
     /// It stores a text lines, the manager of commands, undo/redo stack, styles.
     /// </summary>
-    public class TextSource : IList<Line>, IDisposable
+    public partial class TextSource : IList<Line>, IDisposable
     {
-        readonly protected List<Line> lines = new List<Line>();
+        readonly protected List<Line> lines = [];
         protected LinesAccessor linesAccessor;
         int lastLineUniqueId;
         public CommandManager Manager { get; set; }
@@ -181,7 +181,7 @@ namespace FastColoredTextBoxNS
 
         public virtual void RemoveLine(int index, int count)
         {
-            List<int> removedLineIds = new List<int>();
+            List<int> removedLineIds = [];
             //
             if (count > 0)
                 if (IsNeedBuildRemovedLineIds)
@@ -330,7 +330,7 @@ namespace FastColoredTextBoxNS
 
         public virtual void SaveToFile(string fileName, Encoding enc)
         {
-            using (StreamWriter sw = new StreamWriter(fileName, false, enc))
+            using (StreamWriter sw = new(fileName, false, enc))
             {
                 for (int i = 0; i < Count - 1; i++)
                     sw.WriteLine(lines[i].Text);

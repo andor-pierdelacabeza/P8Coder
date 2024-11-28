@@ -8,7 +8,7 @@ using System.Xml;
 
 namespace FastColoredTextBoxNS
 {
-    public class SyntaxHighlighter : IDisposable
+    public partial class SyntaxHighlighter : IDisposable
     {
         //styles
         protected static readonly Platform platformType = PlatformType.GetOperationSystemPlatform();
@@ -24,7 +24,7 @@ namespace FastColoredTextBoxNS
         public readonly Style BlackStyle = new TextStyle(Brushes.Black, null, FontStyle.Regular);
         //
         protected readonly Dictionary<string, SyntaxDescriptor> descByXMLfileNames =
-            new Dictionary<string, SyntaxDescriptor>();
+            [];
 
         protected Regex CSharpAttributeRegex,
                       CSharpClassNameRegex;
@@ -409,10 +409,12 @@ namespace FastColoredTextBoxNS
 
         protected static FoldingDesc ParseFolding(XmlNode foldingNode)
         {
-            var folding = new FoldingDesc();
-            //regex
-            folding.startMarkerRegex = foldingNode.Attributes["start"].Value;
-            folding.finishMarkerRegex = foldingNode.Attributes["finish"].Value;
+            var folding = new FoldingDesc
+            {
+                //regex
+                startMarkerRegex = foldingNode.Attributes["start"].Value,
+                finishMarkerRegex = foldingNode.Attributes["finish"].Value
+            };
             //options
             XmlAttribute optionsA = foldingNode.Attributes["options"];
             if (optionsA != null)
@@ -423,8 +425,10 @@ namespace FastColoredTextBoxNS
 
         protected static RuleDesc ParseRule(XmlNode ruleNode, Dictionary<string, Style> styles)
         {
-            var rule = new RuleDesc();
-            rule.pattern = ruleNode.InnerText;
+            var rule = new RuleDesc
+            {
+                pattern = ruleNode.InnerText
+            };
             //
             XmlAttribute styleA = ruleNode.Attributes["style"];
             XmlAttribute optionsA = ruleNode.Attributes["options"];

@@ -184,7 +184,7 @@ namespace FastColoredTextBoxNS
             //  http://www.w3.org/International/questions/qa-forms-utf-8
             //  adapted here for C#.
             string potentiallyMangledString = Encoding.ASCII.GetString(SampleBytes);
-            Regex UTF8Validator = new Regex(@"\A("
+            Regex UTF8Validator = new(@"\A("
                 + @"[\x09\x0A\x0D\x20-\x7E]"
                 + @"|[\xC2-\xDF][\x80-\xBF]"
                 + @"|\xE0[\xA0-\xBF][\x80-\xBF]"

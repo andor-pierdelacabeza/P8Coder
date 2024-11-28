@@ -32,7 +32,7 @@ namespace P8Coder
 
         private void showFunctionForm(Function func)
         {
-            FunctionForm form = new FunctionForm(func);
+            FunctionForm form = new(func);
             form.ShowDialog();
             form.Dispose();
             functionsList.Invalidate();
@@ -66,7 +66,7 @@ namespace P8Coder
         private void addBtn_Click(object sender, EventArgs e)
         {
             store();
-            Function func = new Function("newFunction", "function newFunction" + entity.Name.ToLower() + "()\nend");
+            Function func = new("newFunction", "function newFunction" + entity.Name.ToLower() + "()\nend");
             entity.Functions.Add(func);
             fillControls();
             functionsList.SelectedItem = func;

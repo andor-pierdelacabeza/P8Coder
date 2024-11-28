@@ -11,7 +11,7 @@ namespace P8Coder
         {
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.SetCompatibleTextRenderingDefault(false);
-            CoderForm mainForm = new CoderForm();
+            CoderForm mainForm = new();
 
             string[] args = Environment.GetCommandLineArgs();
             if (args.Length > 1 && File.Exists(args[1])) mainForm.LoadProject(args[1]);

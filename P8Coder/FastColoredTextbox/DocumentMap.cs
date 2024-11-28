@@ -9,7 +9,7 @@ namespace FastColoredTextBoxNS
     /// <summary>
     /// Shows document map of FCTB
     /// </summary>
-    public class DocumentMap : Control
+    public partial class DocumentMap : Control
     {
         public EventHandler TargetChanged;
 

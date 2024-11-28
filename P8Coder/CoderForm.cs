@@ -90,16 +90,18 @@ namespace P8Coder
         private void readPico8API()
         {
             string api = Properties.Resources.pico8api;
-            pico8help = new Dictionary<string, Pico8ApiHelp>();
+            pico8help = [];
 
             string[] lines = api.Split('\n');
             foreach (string line in lines)
             {
                 string full = line.Trim();
-                Pico8ApiHelp help = new Pico8ApiHelp();
-                help.Name = full.Substring(0, full.IndexOf("("));
-                help.Code = full.Substring(0, full.IndexOf("--")).Trim();
-                help.Description = full.Substring(full.IndexOf("--") + 2).Trim();
+                Pico8ApiHelp help = new()
+                {
+                    Name = full.Substring(0, full.IndexOf("(")),
+                    Code = full.Substring(0, full.IndexOf("--")).Trim(),
+                    Description = full.Substring(full.IndexOf("--") + 2).Trim()
+                };
                 pico8help.Add(help.Name, help);
             }
         }
@@ -116,7 +118,7 @@ namespace P8Coder
         {
             codeTabs.Controls.Clear();
 
-            Project p = new Project();
+            Project p = new();
             if (!p.Load(filename))
             {
                 MessageBox.Show("Failed to load project file!", "Sorry!");
@@ -180,13 +182,15 @@ namespace P8Coder
             foreach (Function func in entity.Functions)
             {
                 if (func == currentFunction) found = true;
-                Button button = new Button();
-                button.Text = func.Name;
-                button.Tag = func;
-                button.Width = 80;
-                button.Height = 30;
-                button.FlatStyle = FlatStyle.Flat;
-                button.Left = x;
+                Button button = new()
+                {
+                    Text = func.Name,
+                    Tag = func,
+                    Width = 80,
+                    Height = 30,
+                    FlatStyle = FlatStyle.Flat,
+                    Left = x
+                };
                 button.Click += codeTabClicked;
                 codeTabs.Controls.Add(button);
                 x += 84;
@@ -216,7 +220,7 @@ namespace P8Coder
 
         private void showEntityForm(Entity entity)
         {
-            EntityForm form = new EntityForm(entity);
+            EntityForm form = new(entity);
             form.ShowDialog();
             form.Dispose();
             entitiesList.Invalidate();
@@ -324,8 +328,10 @@ namespace P8Coder
         */
         private void runCart()
         {
-            ProcessStartInfo info = new ProcessStartInfo();
-            info.Arguments = "-run " + currentProject.CartFilename;
+            ProcessStartInfo info = new()
+            {
+                Arguments = "-run " + currentProject.CartFilename
+            };
 
             info.Arguments += " -width " + Settings.Width.ToString() +
                               " -height " + Settings.Height.ToString() +
@@ -344,8 +350,10 @@ namespace P8Coder
             info.FileName = Settings.Pico8exe;
             info.UseShellExecute = false;
 
-            Process pico8Process = new Process();
-            pico8Process.StartInfo = info;
+            Process pico8Process = new()
+            {
+                StartInfo = info
+            };
             pico8Process.Start();
         }
         #endregion
@@ -481,7 +489,7 @@ namespace P8Coder
 
         private void addEntityBtn_Click(object sender, EventArgs e)
         {
-            Entity entity = new Entity();
+            Entity entity = new();
             entity.Add("update", "function updEntity()\nend");
             entity.Add("draw", "function drwEntity()\nend");
             currentProject.Entities.Add(entity);
@@ -685,7 +693,7 @@ namespace P8Coder
 
         private void pico8LaunchSettingsBtn_Click(object sender, EventArgs e)
         {
-            LaunchSettingsForm f = new LaunchSettingsForm(Settings);
+            LaunchSettingsForm f = new(Settings);
             f.ShowDialog(this);
         }
 

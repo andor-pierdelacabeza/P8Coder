@@ -45,10 +45,10 @@ namespace FastColoredTextBoxNS
     /// <summary>
     /// Collection of bookmarks
     /// </summary>
-    public class Bookmarks : BaseBookmarks
+    public partial class Bookmarks : BaseBookmarks
     {
         protected FastColoredTextBox tb;
-        protected List<Bookmark> items = new List<Bookmark>();
+        protected List<Bookmark> items = [];
         protected int counter;
 
         public Bookmarks(FastColoredTextBox tb)
