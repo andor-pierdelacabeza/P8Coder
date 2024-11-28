@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Windows.Forms;
 using System.Threading;
+using System.Windows.Forms;
 using P8Coder.Core;
 using P8Coder.Utils;
 
@@ -72,7 +72,7 @@ namespace P8Coder
             if (Settings.Pico8exe.Length == 0 || !File.Exists(Settings.Pico8exe))
             {
                 MessageBox.Show("Please select pico8.exe so P8Coder can run carts.", "pico-8 binary", MessageBoxButtons.OK);
-                showPico8BinarySelectionDialog();                
+                showPico8BinarySelectionDialog();
             }
 
             if (currentProject == null) newProject();
@@ -99,7 +99,7 @@ namespace P8Coder
                 Pico8ApiHelp help = new Pico8ApiHelp();
                 help.Name = full.Substring(0, full.IndexOf("("));
                 help.Code = full.Substring(0, full.IndexOf("--")).Trim();
-                help.Description = full.Substring(full.IndexOf("--")+2).Trim();
+                help.Description = full.Substring(full.IndexOf("--") + 2).Trim();
                 pico8help.Add(help.Name, help);
             }
         }
@@ -177,7 +177,7 @@ namespace P8Coder
             codeTabs.Controls.Clear();
 
             bool found = false;
-            foreach(Function func in entity.Functions)
+            foreach (Function func in entity.Functions)
             {
                 if (func == currentFunction) found = true;
                 Button button = new Button();
@@ -203,7 +203,7 @@ namespace P8Coder
             luaCodeEditor.ClearUndo();
             currentFunction = func;
 
-            foreach(Control c in codeTabs.Controls)
+            foreach (Control c in codeTabs.Controls)
             {
                 ((Button)c).ForeColor = ((Function)c.Tag == func) ? Color.Black : Color.Gray;
                 ((Button)c).BackColor = ((Function)c.Tag == func) ? Color.White : BackColor;
@@ -240,7 +240,7 @@ namespace P8Coder
 
             int id = entitiesList.SelectedIndex;
             entitiesList.Items.Clear();
-            foreach(Entity entity in currentProject.Entities)
+            foreach (Entity entity in currentProject.Entities)
             {
                 entitiesList.Items.Add(entity, entity.Enabled);
             }
@@ -329,21 +329,21 @@ namespace P8Coder
 
             info.Arguments += " -width " + Settings.Width.ToString() +
                               " -height " + Settings.Height.ToString() +
-                              " -windowed " + (Settings.Fullscreen ? "0" : "1") + 
+                              " -windowed " + (Settings.Fullscreen ? "0" : "1") +
                               " -sound " + Settings.SoundVolume.ToString() +
-                              " -music " + Settings.MusicVolume.ToString() + 
-                              " -joystick " + Settings.Joystick.ToString() + 
-                              " -pixel_perfect " + (Settings.PixelPerfect ? "1" : "0") + 
+                              " -music " + Settings.MusicVolume.ToString() +
+                              " -joystick " + Settings.Joystick.ToString() +
+                              " -pixel_perfect " + (Settings.PixelPerfect ? "1" : "0") +
                               " -screenshot_scale " + Settings.ScreenshotScale.ToString() +
-                              " -gif_scale " + Settings.GIFScale.ToString() + 
+                              " -gif_scale " + Settings.GIFScale.ToString() +
                               " -gif_len " + Settings.GIFDuration.ToString() +
                               " -gui_theme " + (Settings.DarkEditor ? "1" : "0") +
-                              " -frameless " + (Settings.Borderless ? "1" : "0") + 
+                              " -frameless " + (Settings.Borderless ? "1" : "0") +
                               " -show_fps " + (Settings.ShowFPS ? "1" : "0");
 
             info.FileName = Settings.Pico8exe;
             info.UseShellExecute = false;
-            
+
             Process pico8Process = new Process();
             pico8Process.StartInfo = info;
             pico8Process.Start();
@@ -396,13 +396,13 @@ namespace P8Coder
 
         private void selectPrevFunction()
         {
-            for(int i = 0; i < codeTabs.Controls.Count; i++)
+            for (int i = 0; i < codeTabs.Controls.Count; i++)
             {
                 Function f = (Function)codeTabs.Controls[i].Tag;
                 if (f == currentFunction)
                 {
                     int id = i - 1;
-                    if (id < 0) id = codeTabs.Controls.Count-1;
+                    if (id < 0) id = codeTabs.Controls.Count - 1;
                     editFunction((Function)codeTabs.Controls[id].Tag);
                     return;
                 }
@@ -623,7 +623,7 @@ namespace P8Coder
                 spritesheetForm.Show();
             }
         }
-        
+
         private void spritesheetForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             spritesheetForm = null;
@@ -669,7 +669,7 @@ namespace P8Coder
 
         private void apiButton_Click(object sender, EventArgs e)
         {
-            Process.Start("https://neko250.github.io/pico8-api/");            
+            Process.Start("https://neko250.github.io/pico8-api/");
         }
 
         private void githubButton_Click(object sender, EventArgs e)

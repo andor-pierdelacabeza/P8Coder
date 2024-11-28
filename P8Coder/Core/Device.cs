@@ -5,8 +5,8 @@ namespace P8Coder.Core
     public class Device
     {
         public static readonly Color[] Palette = new Color[]
-		{
-			Color.FromArgb(0, 0, 0),		// 0 black 
+        {
+            Color.FromArgb(0, 0, 0),		// 0 black 
 			Color.FromArgb(29, 43, 83),		// 1 dark blue 
 			Color.FromArgb(126, 37, 83),	// 2 dark purple 
 			Color.FromArgb(0, 135, 81),		// 3 dark green 

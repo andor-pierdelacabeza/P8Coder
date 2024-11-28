@@ -33,7 +33,7 @@ namespace P8Coder.Core
                     {
                         Cart.Load();
                     }
-                    catch(Exception e)
+                    catch (Exception e)
                     {
                         //Debug.WriteLine(e.Message);
                         Cart = null;
@@ -41,7 +41,7 @@ namespace P8Coder.Core
                 }
             }
         }
-        public Cartridge Cart { get; private set; }        
+        public Cartridge Cart { get; private set; }
 
         public int Version { get; private set; }
         public string Name;
@@ -50,7 +50,7 @@ namespace P8Coder.Core
         public string Code { get { return assembleCode(); } }
 
         public List<Entity> Entities = new List<Entity>();
-        
+
         public Project()
         {
             Version = 1;
@@ -89,7 +89,7 @@ namespace P8Coder.Core
         {
             if (!File.Exists(filename)) return false;
             Filename = filename;
-            
+
             XElement xproject = XElement.Load(filename, LoadOptions.None);
 
             try
@@ -110,12 +110,12 @@ namespace P8Coder.Core
             string code = "--" + Name.ToLower() + nl;
             code += "--by " + Author.ToLower() + nl + nl;
 
-            foreach(Entity entity in Entities)
+            foreach (Entity entity in Entities)
             {
                 if (!entity.Enabled) continue;
 
                 code += "--" + entity.Name + nl;
-                foreach(Function func in entity.Functions)
+                foreach (Function func in entity.Functions)
                 {
                     if (func.Enabled) code += func.Code.ToLower() + nl + nl;
                 }

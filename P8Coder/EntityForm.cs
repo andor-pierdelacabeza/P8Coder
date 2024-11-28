@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 //using System.Data;
 //using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Text.RegularExpressions;
 
 using P8Coder.Core;
 
@@ -22,7 +16,7 @@ namespace P8Coder
             InitializeComponent();
             entity = ent;
             fillControls();
-            functionsList.SelectedIndex = 0;            
+            functionsList.SelectedIndex = 0;
         }
 
         private void fillControls()
@@ -72,7 +66,7 @@ namespace P8Coder
         private void addBtn_Click(object sender, EventArgs e)
         {
             store();
-            Function func = new Function("newFunction", "function newFunction"+entity.Name.ToLower()+"()\nend");
+            Function func = new Function("newFunction", "function newFunction" + entity.Name.ToLower() + "()\nend");
             entity.Functions.Add(func);
             fillControls();
             functionsList.SelectedItem = func;
@@ -111,10 +105,10 @@ namespace P8Coder
             if (index > 0)
             {
                 index--;
-                
+
                 entity.Functions.Remove(func);
                 entity.Functions.Insert(index, func);
-                
+
                 fillControls();
                 functionsList.SelectedIndex = index;
             }

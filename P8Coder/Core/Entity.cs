@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Xml.Linq;
 
 namespace P8Coder.Core
@@ -34,7 +30,7 @@ namespace P8Coder.Core
 
             foreach (XElement xfunc in xentity.Elements())
             {
-                Function f = new Function("",""); 
+                Function f = new Function("", "");
                 f.FromXElement(xfunc);
                 Functions.Add(f);
             }
@@ -44,12 +40,12 @@ namespace P8Coder.Core
 
         public XElement ToXElement()
         {
-            XElement xentity = new XElement("entity", 
+            XElement xentity = new XElement("entity",
                 new XAttribute("name", Name),
                 new XAttribute("enabled", Enabled ? 1 : 0)
                 );
 
-            foreach(Function func in Functions)
+            foreach (Function func in Functions)
             {
                 xentity.Add(func.ToXElement());
             }

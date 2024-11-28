@@ -933,7 +933,7 @@ namespace FastColoredTextBoxNS
                 if (tagName[0] != '/')
                 {
                     // ...push into stack
-                    var tag = new XmlFoldingTag {Name = tagName, id = id++, startLine = r.Start.iLine};
+                    var tag = new XmlFoldingTag { Name = tagName, id = id++, startLine = r.Start.iLine };
                     stack.Push(tag);
                     // if this line has no markers - set marker
                     if (string.IsNullOrEmpty(fctb[iLine].FoldingStartMarker))
@@ -964,12 +964,12 @@ namespace FastColoredTextBoxNS
         }
 
         class XmlFoldingTag
-		{
-			public string Name;
-			public int id;
-			public int startLine;
-			public string Marker { get { return Name + id; } }
-		}
+        {
+            public string Name;
+            public int id;
+            public int startLine;
+            public string Marker { get { return Name + id; } }
+        }
 
         protected void InitSQLRegex()
         {

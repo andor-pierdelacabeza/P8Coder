@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 
 namespace P8Coder.Core
 {
@@ -26,7 +21,7 @@ namespace P8Coder.Core
 
         public XElement ToXElement()
         {
-            return new XElement("function", 
+            return new XElement("function",
                 new XAttribute("name", Name),
                 new XAttribute("enabled", Enabled ? 1 : 0),
                 Code);

@@ -29,10 +29,10 @@ namespace P8Coder.Core
         private Timer changePollTimer;
 
         private Action<Cartridge> onChangeCallback = null;
-        public Action<Cartridge> OnChangeCallback 
+        public Action<Cartridge> OnChangeCallback
         {
-            set 
-            { 
+            set
+            {
                 onChangeCallback = value;
                 changePollTimer.Stop();
                 changePollTimer.Start();
@@ -81,23 +81,23 @@ namespace P8Coder.Core
 
             string[] sections = Regex.Split(rawText, "__(lua|gfx|gff|map|sfx|music|label)__");
 
-            for(int i = 1; i < sections.Length; i += 2)
+            for (int i = 1; i < sections.Length; i += 2)
             {
-                switch(sections[i])
+                switch (sections[i])
                 {
                     case "lua":
                         Lua = sections[i + 1].Trim();
                         break;
 
                     case "gfx":
-                        Gfx = sections[i + 1].Replace("\n", "").Trim().PadRight(128*128, '0');                        
+                        Gfx = sections[i + 1].Replace("\n", "").Trim().PadRight(128 * 128, '0');
                         break;
 
                     case "gff":
                         break;
 
                     case "map":
-                        Map = sections[i + 1].Replace("\n", "").Trim().PadRight(128*32, '0');
+                        Map = sections[i + 1].Replace("\n", "").Trim().PadRight(128 * 32, '0');
                         break;
 
                     case "sfx":
@@ -162,7 +162,7 @@ namespace P8Coder.Core
             MapSheet = new Bitmap(128 * 8, 64 * 8);
 
             // pico-8 shares the lower half of gfx with map
-            string ids = Map + Gfx.Substring(128 * 64); 
+            string ids = Map + Gfx.Substring(128 * 64);
             int num = ids.Length / 2;
 
             var g = Graphics.FromImage(MapSheet);
@@ -177,8 +177,8 @@ namespace P8Coder.Core
 
                 // the second half seems to have bytes reversed
                 id = Convert.ToInt32(y >= 32 * 8 ? ids.Substring(i * 2 + 1, 1) + ids.Substring(i * 2, 1) : ids.Substring(i * 2, 2), 16);
-                
-                if (id == 0) g.FillRectangle(Brushes.Black, x,y, 8,8);
+
+                if (id == 0) g.FillRectangle(Brushes.Black, x, y, 8, 8);
                 else g.DrawImage(Sprites[id], x, y);
             }
             g.Dispose();

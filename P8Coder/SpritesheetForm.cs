@@ -1,14 +1,7 @@
-﻿using P8Coder.Core;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+﻿using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace P8Coder
@@ -71,7 +64,7 @@ namespace P8Coder
                 case 4:
                     Size = new Size(561, 631);
                     break;
-                
+
             }
 
             canvasPanel.Invalidate();

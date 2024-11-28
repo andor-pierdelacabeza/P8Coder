@@ -1,14 +1,7 @@
-﻿using P8Coder.Core;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+﻿using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace P8Coder
@@ -28,8 +21,8 @@ namespace P8Coder
             InitializeComponent();
 
             // enable double buffering for canvasPanel
-            typeof(Panel).InvokeMember("DoubleBuffered", 
-                BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic, 
+            typeof(Panel).InvokeMember("DoubleBuffered",
+                BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
                 null, canvasPanel, new object[] { true });
 
             setZoom(zoom);
@@ -87,8 +80,8 @@ namespace P8Coder
             int sx = (int)Math.Floor(x / 8f);
             int sy = (int)Math.Floor(y / 8f);
 
-            if (sx > 16*8-1 || sx < 0) return;
-            if (sy > 16*4-1 || sy < 0) return;
+            if (sx > 16 * 8 - 1 || sx < 0) return;
+            if (sy > 16 * 4 - 1 || sy < 0) return;
 
             selectedSpriteX = sx;
             selectedSpriteY = sy;
@@ -97,7 +90,7 @@ namespace P8Coder
             int screenY = (int)Math.Floor((float)sy / 16f);
 
             selectionLabel.Text = //x.ToString() + "/" + y.ToString() + " -> " +
-                "screen: " + screenX + "/" + screenY + "    " + 
+                "screen: " + screenX + "/" + screenY + "    " +
                 "cell: " + selectedSpriteX.ToString() + "/" + selectedSpriteY.ToString() + "    " +
                 "px: " + (selectedSpriteX * 8).ToString() + "/" + (selectedSpriteY * 8).ToString();
 
